@@ -26,6 +26,14 @@ jobs:
         with:
           packages: 'platform-tools'
 
+      - name: Create debug keystore
+        run: |
+          mkdir -p "$HOME/.config/.android"
+          keytool -genkeypair -noprompt \
+            -keystore "$HOME/.config/.android/debug.keystore" \
+            -storepass android -keypass android -alias androiddebugkey \
+            -keyalg RSA -keysize 2048 -validity 10000 \
+            -dname "CN=Android Debug,O=Android,C=US"
       - name: Assemble debug APK
         run: |
           chmod +x ./gradlew
